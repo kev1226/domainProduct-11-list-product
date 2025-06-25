@@ -1,4 +1,4 @@
-name: Build & Deploy create-product to EC2
+name: Build & Deploy list-products to EC2
 
 on:
   push:
@@ -36,11 +36,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t kalemat/10-create-product:${{ steps.set-vars.outputs.tag }} .
+          docker build -t kalemat/11-list-products:${{ steps.set-vars.outputs.tag }} .
 
       - name: Push Docker image to Docker Hub
         run: |
-          docker push kalemat/10-create-product:${{ steps.set-vars.outputs.tag }}
+          docker push kalemat/11-list-products:${{ steps.set-vars.outputs.tag }}
 
       - name: Connect and deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
@@ -52,13 +52,13 @@ jobs:
           timeout: 30s
           command_timeout: 10m
           script: |
-            docker stop 10-create-product || true
-            docker rm 10-create-product || true
+            docker stop 11-list-products || true
+            docker rm 11-list-products || true
 
-            docker pull kalemat/10-create-product:${{ steps.set-vars.outputs.tag }}
+            docker pull kalemat/11-list-products:${{ steps.set-vars.outputs.tag }}
 
             docker run -d \
-              --name 10-create-product \
+              --name 11-list-products \
               --restart always \
-              -p 3020:3020 \
-              kalemat/10-create-product:${{ steps.set-vars.outputs.tag }}
+              -p 3021:3021 \
+              kalemat/11-list-products:${{ steps.set-vars.outputs.tag }}
