@@ -14,9 +14,9 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final StockService service;
+    private final ProductService service;
 
-    public ProductController(StockService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
